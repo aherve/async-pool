@@ -11,10 +11,8 @@
   },
   "type": "module",
   "description": "wip",
-  "keywords": [
-    "TODO"
-  ],
-  "license": "GPL-3.0-or-later",
+  "keywords": [],
+  "license": "ISC",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
@@ -28,22 +26,24 @@
   },
   "scripts": {
     "test": "node --experimental-strip-types ./tests/**",
-    "test:watch": "node --experimental-strip-types --watch ./src/** ./tests/**",
+    "test:watch": "node --experimental-strip-types --watch ./tests/**",
     "compile": "tsc --noEmit",
     "build": "rm -rf build/* && tsc",
     "doc": "typedoc"
   },
-  "keywords": [],
   "author": {
     "name": "Aurélien Hervé",
     "email": "mail@aurelien-herve.com"
   },
-  "license": "ISC",
   "packageManager": "pnpm@10.5.2",
   "devDependencies": {
     "@types/node": "^24.1.0",
+    "eslint": "^9.32.0",
+    "globals": "^16.3.0",
+    "jiti": "^2.5.1",
     "typedoc": "^0.28.7",
     "typedoc-plugin-markdown": "^4.7.1",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.38.0"
   }
 }
