@@ -2,11 +2,11 @@
 
 ***
 
-[@aherve/async-queue](../globals.md) / AsyncQueueTask
+[@aherve/async-queue](../README.md) / AsyncQueueTask
 
 # Interface: AsyncQueueTask\<T\>
 
-Defined in: [src/async-queue.ts:29](https://github.com/aherve/async-queue/blob/447558e6887d14e30051b5e6b88beb39e95cc768/src/async-queue.ts#L29)
+Defined in: [src/async-queue.ts:29](https://github.com/aherve/async-queue/blob/b0f165cae77850c64c9d22d5e974ce07ac1b1721/src/async-queue.ts#L29)
 
 Represents a task to be executed in the AsyncQueue.
 
@@ -22,7 +22,7 @@ Represents a task to be executed in the AsyncQueue.
 
 > **maxRetries**: `number`
 
-Defined in: [src/async-queue.ts:37](https://github.com/aherve/async-queue/blob/447558e6887d14e30051b5e6b88beb39e95cc768/src/async-queue.ts#L37)
+Defined in: [src/async-queue.ts:37](https://github.com/aherve/async-queue/blob/b0f165cae77850c64c9d22d5e974ce07ac1b1721/src/async-queue.ts#L37)
 
 Override the maximum number of retries for this specific task.
 
@@ -32,7 +32,7 @@ Override the maximum number of retries for this specific task.
 
 > **task**: () => `Promise`\<`T`\>
 
-Defined in: [src/async-queue.ts:33](https://github.com/aherve/async-queue/blob/447558e6887d14e30051b5e6b88beb39e95cc768/src/async-queue.ts#L33)
+Defined in: [src/async-queue.ts:33](https://github.com/aherve/async-queue/blob/b0f165cae77850c64c9d22d5e974ce07ac1b1721/src/async-queue.ts#L33)
 
 The asynchronous task to be executed.
 
