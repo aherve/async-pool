@@ -15,7 +15,7 @@ jobs:
           node-version: 23
       - run: npm install
       - run: npm run build
-      - run: npm run docs
+      - run: npm run doc
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
