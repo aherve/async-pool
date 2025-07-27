@@ -1,4 +1,4 @@
-[**@aherve/async-queue v0.0.5**](../README.md)
+[**@aherve/async-queue v0.0.8**](../README.md)
 
 ***
 
@@ -8,7 +8,7 @@
 
 > **hello**(): `number`
 
-Defined in: [index.ts:6](https://github.com/aherve/async-queue/blob/3e8fe1c021a9b0922fcff006e868b11309fa51ed/src/index.ts#L6)
+Defined in: [index.ts:6](https://github.com/aherve/async-queue/blob/b78ad9e4b23d60bc547497b746ccba1e6f9a6f1e/src/index.ts#L6)
 
 Returns the number 0.
 
