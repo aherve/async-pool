@@ -1,8 +1,7 @@
-name: CI
+name: Test
 
 on:
   push:
-    branches: [main]
 
 jobs:
   build-and-test:
@@ -13,6 +12,5 @@ jobs:
         with:
           node-version: 23
       - run: npm install
-      - run: npm run test
       - run: npm run compile
-      - run: npm run doc
+      - run: npm run test

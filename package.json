@@ -1,11 +1,11 @@
 {
   "name": "@aherve/async-queue",
+  "version": "0.0.3",
   "repository": {
     "type": "git",
     "url": "https://github.com/aherve/async-queue.git"
   },
   "homepage": "https://github.com/aherve/async-queue",
-  "version": "0.0.3",
   "publishConfig": {
     "access": "public"
   },
