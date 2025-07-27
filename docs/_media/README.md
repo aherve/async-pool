@@ -1,4 +1,4 @@
-**@aherve/async-queue v0.0.8**
+**@aherve/async-queue v0.0.9**
 
 ***
 

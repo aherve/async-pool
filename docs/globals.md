@@ -1,8 +1,8 @@
-[**@aherve/async-queue v0.0.8**](README.md)
+[**@aherve/async-queue v0.0.9**](README.md)
 
 ***
 
-# @aherve/async-queue v0.0.8
+# @aherve/async-queue v0.0.9
 
 ## Functions
 
