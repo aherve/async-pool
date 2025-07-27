@@ -1,0 +1,34 @@
+{
+  "name": "@aherve/async-queue",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "test": "node --experimental-strip-types ./tests/**",
+    "test:watch": "node --experimental-strip-types --watch ./src/** ./tests/**",
+    "compile": "tsc --noEmit",
+    "build": "rm -rf build/* && tsc",
+    "doc": "typedoc"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.5.2",
+  "devDependencies": {
+    "@types/node": "^24.1.0",
+    "typedoc": "^0.28.7",
+    "typedoc-plugin-markdown": "^4.7.1",
+    "typescript": "^5.8.3"
+  }
+}
