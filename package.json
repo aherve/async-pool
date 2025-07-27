@@ -1,7 +1,7 @@
 {
   "name": "@aherve/async-queue",
-  "type": "module",
   "version": "1.0.0",
+  "type": "module",
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -22,7 +22,10 @@
     "doc": "typedoc"
   },
   "keywords": [],
-  "author": "",
+  "author": {
+    "name": "Aurélien Hervé",
+    "email": "mail@aurelien-herve.com"
+  },
   "license": "ISC",
   "packageManager": "pnpm@10.5.2",
   "devDependencies": {
