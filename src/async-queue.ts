@@ -1,52 +1,110 @@
 import { Readable } from "node:stream";
 
-export type AsyncQueueOptions = {
+/**
+ * Options for configuring the AsyncQueue.
+ */
+export interface AsyncQueueOptions {
+  /**
+   * The maximum number of tasks that can be processed concurrently.
+   */
   maxConcurrency: number;
+  /**
+   * The maximum number of times a task will be retried upon failure. Can be overridden per task.
+   */
   maxRetries: number;
-  terminateWhenEmpty: boolean;
-};
-const DEFAULT_OPTIONS: AsyncQueueOptions = {
+}
+
+/**
+ * Default options for AsyncQueue.
+ * @interface {AsyncQueueOptions}
+ */
+const DEFAULT_ASYNC_QUEUE_OPTIONS: AsyncQueueOptions = {
   maxConcurrency: 0,
   maxRetries: 0,
-  terminateWhenEmpty: false,
 };
 
-export type AsyncQueueTask<T> = {
+/**
+ * Represents a task to be executed in the AsyncQueue.
+ */
+export interface AsyncQueueTask<T> {
+  /**
+   * The asynchronous task to be executed.
+   */
   task: () => Promise<T>;
+  /**
+   * Override the maximum number of retries for this specific task.
+   */
   maxRetries: number;
-};
+}
 
+/**
+ * An asynchronous queue that manages concurrent execution of tasks with retry and termination options.
+ * Extends Node.js Readable stream in object mode.
+ * @template T
+ */
 export class AsyncQueue<T = unknown> extends Readable {
+  /**
+   * The options for this queue instance.
+   * @type {AsyncQueueOptions}
+   */
   public options: AsyncQueueOptions;
   private idCounter: number = 0;
   private tasks: Array<AsyncQueueTask<T>> = [];
   private inFlight: Map<string, Promise<void>> = new Map();
+  private _terminateWhenEmpty: boolean = false;
 
+  /**
+   * Creates an instance of AsyncQueue.
+   * @param opts Optional configuration options to override the default AsyncQueue options.
+   */
   public constructor(opts?: Partial<AsyncQueueOptions>) {
     super({ objectMode: true });
-    this.options = { ...DEFAULT_OPTIONS, ...opts };
+    this.options = { ...DEFAULT_ASYNC_QUEUE_OPTIONS, ...opts };
   }
 
+  /**
+   * Sets the queue to terminate when empty.
+   * @returns {this}
+   */
   public terminateWhenEmpty(): this {
-    this.options.terminateWhenEmpty = true;
+    this._terminateWhenEmpty = true;
     return this;
   }
 
+  /**
+   * Keeps the queue alive even when empty (prevents termination).
+   * @returns {this}
+   */
   public keepAlive(): this {
-    this.options.terminateWhenEmpty = false;
+    this._terminateWhenEmpty = false;
     return this;
   }
 
+  /**
+   * Sets the maximum concurrency for the queue.
+   * @param {number} maxConcurrency - Maximum number of concurrent tasks.
+   * @returns {this}
+   */
   public withConcurrency(maxConcurrency: number): this {
     this.options.maxConcurrency = maxConcurrency;
     return this;
   }
 
+  /**
+   * Sets the maximum number of retries for tasks.
+   * @param {number} maxRetries - Maximum number of retries.
+   * @returns {this}
+   */
   public withRetries(maxRetries: number): this {
     this.options.maxRetries = maxRetries;
     return this;
   }
 
+  /**
+   * Enqueues a new task into the queue.
+   * @param {Omit<AsyncQueueTask<T>, "maxRetries"> & { maxRetries?: number }} task - The task to enqueue.
+   * @returns {this}
+   */
   public enqueue(
     task: Omit<AsyncQueueTask<T>, "maxRetries"> & { maxRetries?: number },
   ): this {
@@ -58,6 +116,10 @@ export class AsyncQueue<T = unknown> extends Readable {
     return this;
   }
 
+  /**
+   * Returns an async generator yielding results as they complete.
+   * @yields {T}
+   */
   public async *results(): AsyncGenerator<T> {
     this.terminateWhenEmpty();
     for await (const result of this) {
@@ -65,6 +127,10 @@ export class AsyncQueue<T = unknown> extends Readable {
     }
   }
 
+  /**
+   * Waits for all tasks to complete and returns their results as an array.
+   * @returns {Promise<T[]>}
+   */
   public async all(): Promise<T[]> {
     const results: T[] = [];
     this.terminateWhenEmpty();
@@ -74,6 +140,10 @@ export class AsyncQueue<T = unknown> extends Readable {
     return results;
   }
 
+  /**
+   * Waits for the queue to terminate (all tasks complete and queue is empty).
+   * @returns {Promise<void>}
+   */
   public async waitForTermination(): Promise<void> {
     this.terminateWhenEmpty();
     for await (const _ of this) {
@@ -93,7 +163,7 @@ export class AsyncQueue<T = unknown> extends Readable {
     if (
       this.tasks.length === 0 &&
       this.inFlight.size === 0 &&
-      this.options.terminateWhenEmpty
+      this._terminateWhenEmpty
     ) {
       this.push(null);
       return;
