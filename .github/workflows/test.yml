@@ -12,6 +12,8 @@ jobs:
         with:
           node-version: 23
       - run: npm whoami
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - run: npm install
       - run: npm run compile
       - run: npm run test
