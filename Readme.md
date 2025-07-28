@@ -2,8 +2,11 @@
 
 Process asynchronous tasks with controlled max concurrency and memory efficiency.
 
-[![npm version](https://img.shields.io/npm/v/@aherve/async-queue.svg)](https://www.npmjs.com/package/@aherve/async-queue)
-[![npm downloads](https://img.shields.io/npm/dm/@aherve/async-queue.svg)](https://www.npmjs.com/package/@aherve/async-queue)
+![NPM Version](https://img.shields.io/npm/v/%40aherve%2Fasync-queue)
+![NPM Downloads](https://img.shields.io/npm/dm/%40aherve%2Fasync-queue)
+![NPM License](https://img.shields.io/npm/l/%40aherve%2Fasync-queue)
+![npm bundle size](https://img.shields.io/bundlephobia/min/%40aherve%2Fasync-queue)
+
 
 ## Features
 
