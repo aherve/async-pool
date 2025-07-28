@@ -11,7 +11,7 @@ Process asynchronous tasks with controlled max concurrency and memory efficiency
 ## Features
 
 - **Concurrency Control:** Limit the number of promises running at the same time.
-- **Memory Efficiency:** Results are yielded or handled as soon as they are available, so you don't need to store all results in an array.
+- **Memory Efficiency:** Can process large numbers of tasks without having to build a large arrays of results.
 - **Flexible API:** Supports both async iteration and promise-based consumption.
 
 ## Installation
