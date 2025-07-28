@@ -1,6 +1,9 @@
 # Async Queue
 
-`AsyncQueue` is a utility class designed to efficiently process large numbers of asynchronous tasks (Promises) with controlled concurrency, without having to accumulate large arrays of results in memory. This makes it ideal for scenarios where you need to process thousands or millions of items asynchronously, but want to avoid memory bloat and control how many tasks run in parallel.
+Process asynchronous tasks with controlled max concurrency and memory efficiency.
+
+[![npm version](https://img.shields.io/npm/v/@aherve/async-queue.svg)](https://www.npmjs.com/package/@aherve/async-queue)
+[![npm downloads](https://img.shields.io/npm/dm/@aherve/async-queue.svg)](https://www.npmjs.com/package/@aherve/async-queue)
 
 ## Features
 
