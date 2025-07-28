@@ -1,7 +1,7 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
 
-import { AsyncQueue } from '../src/async-queue.ts'
+import { AsyncQueue } from '../src/'
 
 test('queue can be created with no options', () => {
   const queue = new AsyncQueue()
