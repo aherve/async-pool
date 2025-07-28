@@ -14,6 +14,20 @@ Process asynchronous tasks with controlled max concurrency and memory efficiency
 - **Memory Efficiency:** Results are yielded or handled as soon as they are available, so you don't need to store all results in an array.
 - **Flexible API:** Supports both async iteration and promise-based consumption.
 
+## Installation
+
+```bash
+npm install @aherve/async-queue
+```
+
+```typescript
+// with TypeScript or ES Modules
+import { AsyncQueue } from "@aherve/async-queue";
+
+// or with CommonJS
+const AsyncQueue = require("@aherve/async-queue").AsyncQueue;
+```
+
 ## Usage
 
 ### Consume results as a stream
