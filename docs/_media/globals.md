@@ -1,8 +1,8 @@
-[**@aherve/async-queue v1.0.3**](README.md)
+[**@aherve/async-queue v1.0.4**](README.md)
 
 ***
 
-# @aherve/async-queue v1.0.3
+# @aherve/async-queue v1.0.4
 
 ## Classes
 

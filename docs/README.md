@@ -1,10 +1,15 @@
-**@aherve/async-queue v1.0.3**
+**@aherve/async-queue v1.0.4**
 
 ***
 
 # Async Queue
 
-`AsyncQueue` is a utility class designed to efficiently process large numbers of asynchronous tasks (Promises) with controlled concurrency, without having to accumulate large arrays of results in memory. This makes it ideal for scenarios where you need to process thousands or millions of items asynchronously, but want to avoid memory bloat and control how many tasks run in parallel.
+Process asynchronous tasks with controlled max concurrency and memory efficiency.
+
+![NPM Version](https://img.shields.io/npm/v/%40aherve%2Fasync-queue)
+![NPM Downloads](https://img.shields.io/npm/dm/%40aherve%2Fasync-queue)
+![NPM License](https://img.shields.io/npm/l/%40aherve%2Fasync-queue)
+![npm bundle size](https://img.shields.io/bundlephobia/min/%40aherve%2Fasync-queue)
 
 ## Features
 
@@ -16,14 +21,15 @@
 
 ### Consume results as a stream
 ```typescript
-const queue = new AsyncQueue<number>()
+const queue = new AsyncQueue<number>() // generic can optionally be used 
   .withConcurrency(10)
-  .withRetries(3); // can be overridden when enqueuing tasks
+  .withRetries(3); // default number of retries for each task unless specified at task level
 
 // enqueue many tasks
 for (let i = 0; i < 100; i++) {
   queue.enqueue({
     task: async () => 2 * i,
+    maxRetries: 3, // optional, will override the queue's default when set
   });
 }
 
@@ -71,6 +77,26 @@ queue.enqueue({ task: async () => "hello" });
 
 const results = await queue.all();
 console.log(results); // [1, true, "hello"], order not guaranteed (especially if retries happened)
+```
+
+### Using generic typings
+
+You can specify a generic type for the `AsyncQueue` to enforce type safety on the results of the tasks. If you don't specify a type, it will default to `unknown`, allowing any type of result.
+
+```typescript
+const typedQueue = new AsyncQueue<string>();
+
+typedQueue.enqueue({ task: async () => "hello" }); // OK
+typedQueue.enqueue({ task: async () => 1 }); // ❌ Error: Type 'Promise<number>' is not assignable to type 'Promise<string>'.
+
+// typedQueue.all() will return a Promise<string[]>, typedQueue.results() is an AsyncGenerator<string>
+
+const relaxedQueue = new AsyncQueue();
+
+relaxedQueue.enqueue({ task: async () => "hello" }); // OK
+relaxedQueue.enqueue({ task: async () => 1 }); // OK
+
+// relaxedQueue.all() will return a Promise<unknown[]>, relaxedQueue.results() is an AsyncGenerator<unknown>
 ```
 
 ## API Documentation
