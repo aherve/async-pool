@@ -6,7 +6,7 @@
 
 # Interface: AsyncQueueOptions
 
-Defined in: [async-queue.ts:6](https://github.com/aherve/async-queue/blob/9c545298021b3a2959db84f65add90dc6b2defda/src/async-queue.ts#L6)
+Defined in: [async-queue.ts:6](https://github.com/aherve/async-queue/blob/6d95f2106cc634e0c72cb04fed3ee46329140605/src/async-queue.ts#L6)
 
 Options for configuring the AsyncQueue.
 
@@ -16,7 +16,7 @@ Options for configuring the AsyncQueue.
 
 > **maxConcurrency**: `number`
 
-Defined in: [async-queue.ts:10](https://github.com/aherve/async-queue/blob/9c545298021b3a2959db84f65add90dc6b2defda/src/async-queue.ts#L10)
+Defined in: [async-queue.ts:10](https://github.com/aherve/async-queue/blob/6d95f2106cc634e0c72cb04fed3ee46329140605/src/async-queue.ts#L10)
 
 The maximum number of tasks that can be processed concurrently.
 
@@ -26,6 +26,6 @@ The maximum number of tasks that can be processed concurrently.
 
 > **maxRetries**: `number`
 
-Defined in: [async-queue.ts:14](https://github.com/aherve/async-queue/blob/9c545298021b3a2959db84f65add90dc6b2defda/src/async-queue.ts#L14)
+Defined in: [async-queue.ts:14](https://github.com/aherve/async-queue/blob/6d95f2106cc634e0c72cb04fed3ee46329140605/src/async-queue.ts#L14)
 
 The maximum number of times a task will be retried upon failure. Can be overridden per task.
