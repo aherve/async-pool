@@ -1,6 +1,6 @@
 {
   "name": "@aherve/async-queue",
-  "version": "0.0.10",
+  "version": "1.0.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/aherve/async-queue.git"
@@ -11,7 +11,13 @@
   },
   "type": "module",
   "description": "wip",
-  "keywords": [],
+  "keywords": [
+    "concurrent",
+    "queue",
+    "async",
+    "promise",
+    "generator"
+  ],
   "license": "ISC",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

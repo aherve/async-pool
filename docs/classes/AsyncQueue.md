@@ -1,4 +1,4 @@
-[**@aherve/async-queue v0.0.10**](../README.md)
+[**@aherve/async-queue v1.0.0**](../README.md)
 
 ***
 
@@ -6,7 +6,7 @@
 
 # Class: AsyncQueue\<T\>
 
-Defined in: [async-queue.ts:44](https://github.com/aherve/async-queue/blob/3ddc356720db9d870c4d0da50067f517efb55d58/src/async-queue.ts#L44)
+Defined in: [async-queue.ts:50](https://github.com/aherve/async-queue/blob/d222be9346d1de27cbacdc3576696f3bada5eda3/src/async-queue.ts#L50)
 
 An asynchronous queue that manages concurrent execution of tasks with retry and termination options.
 
@@ -22,7 +22,7 @@ An asynchronous queue that manages concurrent execution of tasks with retry and 
 
 > **new AsyncQueue**\<`T`\>(`opts?`): `AsyncQueue`\<`T`\>
 
-Defined in: [async-queue.ts:60](https://github.com/aherve/async-queue/blob/3ddc356720db9d870c4d0da50067f517efb55d58/src/async-queue.ts#L60)
+Defined in: [async-queue.ts:67](https://github.com/aherve/async-queue/blob/d222be9346d1de27cbacdc3576696f3bada5eda3/src/async-queue.ts#L67)
 
 Creates an instance of AsyncQueue.
 
@@ -44,7 +44,7 @@ Optional configuration options to override the default AsyncQueue options.
 
 > `readonly` **options**: [`AsyncQueueOptions`](../interfaces/AsyncQueueOptions.md)
 
-Defined in: [async-queue.ts:49](https://github.com/aherve/async-queue/blob/3ddc356720db9d870c4d0da50067f517efb55d58/src/async-queue.ts#L49)
+Defined in: [async-queue.ts:55](https://github.com/aherve/async-queue/blob/d222be9346d1de27cbacdc3576696f3bada5eda3/src/async-queue.ts#L55)
 
 The options for this queue instance.
 
@@ -54,7 +54,7 @@ The options for this queue instance.
 
 > **all**(): `Promise`\<`T`[]\>
 
-Defined in: [async-queue.ts:148](https://github.com/aherve/async-queue/blob/3ddc356720db9d870c4d0da50067f517efb55d58/src/async-queue.ts#L148)
+Defined in: [async-queue.ts:155](https://github.com/aherve/async-queue/blob/d222be9346d1de27cbacdc3576696f3bada5eda3/src/async-queue.ts#L155)
 
 Waits for all tasks to complete and returns their results as an array.
 
@@ -68,7 +68,7 @@ Waits for all tasks to complete and returns their results as an array.
 
 > **enqueue**(`task`): `this`
 
-Defined in: [async-queue.ts:114](https://github.com/aherve/async-queue/blob/3ddc356720db9d870c4d0da50067f517efb55d58/src/async-queue.ts#L114)
+Defined in: [async-queue.ts:121](https://github.com/aherve/async-queue/blob/d222be9346d1de27cbacdc3576696f3bada5eda3/src/async-queue.ts#L121)
 
 Enqueues a new task into the queue.
 
@@ -90,7 +90,7 @@ The task to enqueue.
 
 > **keepAlive**(): `this`
 
-Defined in: [async-queue.ts:84](https://github.com/aherve/async-queue/blob/3ddc356720db9d870c4d0da50067f517efb55d58/src/async-queue.ts#L84)
+Defined in: [async-queue.ts:91](https://github.com/aherve/async-queue/blob/d222be9346d1de27cbacdc3576696f3bada5eda3/src/async-queue.ts#L91)
 
 Keeps the queue alive even when empty (prevents termination).
 
@@ -104,7 +104,7 @@ Keeps the queue alive even when empty (prevents termination).
 
 > **results**(): `AsyncGenerator`\<`T`\>
 
-Defined in: [async-queue.ts:137](https://github.com/aherve/async-queue/blob/3ddc356720db9d870c4d0da50067f517efb55d58/src/async-queue.ts#L137)
+Defined in: [async-queue.ts:144](https://github.com/aherve/async-queue/blob/d222be9346d1de27cbacdc3576696f3bada5eda3/src/async-queue.ts#L144)
 
 Returns an async generator yielding results as they complete.
 
@@ -120,7 +120,7 @@ Returns an async generator yielding results as they complete.
 
 > **terminateWhenEmpty**(): `this`
 
-Defined in: [async-queue.ts:75](https://github.com/aherve/async-queue/blob/3ddc356720db9d870c4d0da50067f517efb55d58/src/async-queue.ts#L75)
+Defined in: [async-queue.ts:82](https://github.com/aherve/async-queue/blob/d222be9346d1de27cbacdc3576696f3bada5eda3/src/async-queue.ts#L82)
 
 Sets the queue to terminate when empty.
 
@@ -134,9 +134,9 @@ Sets the queue to terminate when empty.
 
 > **waitForTermination**(): `Promise`\<`void`\>
 
-Defined in: [async-queue.ts:161](https://github.com/aherve/async-queue/blob/3ddc356720db9d870c4d0da50067f517efb55d58/src/async-queue.ts#L161)
+Defined in: [async-queue.ts:168](https://github.com/aherve/async-queue/blob/d222be9346d1de27cbacdc3576696f3bada5eda3/src/async-queue.ts#L168)
 
-Waits for the queue to terminate (all tasks complete and queue is empty).
+Waits for the queue to terminate (all tasks complete) without returning anything.
 
 #### Returns
 
@@ -148,7 +148,7 @@ Waits for the queue to terminate (all tasks complete and queue is empty).
 
 > **withConcurrency**(`maxConcurrency`): `this`
 
-Defined in: [async-queue.ts:94](https://github.com/aherve/async-queue/blob/3ddc356720db9d870c4d0da50067f517efb55d58/src/async-queue.ts#L94)
+Defined in: [async-queue.ts:101](https://github.com/aherve/async-queue/blob/d222be9346d1de27cbacdc3576696f3bada5eda3/src/async-queue.ts#L101)
 
 Sets the maximum concurrency for the queue.
 
@@ -158,7 +158,7 @@ Sets the maximum concurrency for the queue.
 
 `number`
 
-Maximum number of concurrent tasks.
+Maximum number of concurrent tasks. 0 means pause, <0 means unlimited.
 
 #### Returns
 
@@ -170,7 +170,7 @@ Maximum number of concurrent tasks.
 
 > **withRetries**(`maxRetries`): `this`
 
-Defined in: [async-queue.ts:104](https://github.com/aherve/async-queue/blob/3ddc356720db9d870c4d0da50067f517efb55d58/src/async-queue.ts#L104)
+Defined in: [async-queue.ts:111](https://github.com/aherve/async-queue/blob/d222be9346d1de27cbacdc3576696f3bada5eda3/src/async-queue.ts#L111)
 
 Sets the maximum number of retries for tasks.
 

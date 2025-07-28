@@ -19,7 +19,13 @@ export interface AsyncQueueOptions {
  * @interface {AsyncQueueOptions}
  */
 const DEFAULT_ASYNC_QUEUE_OPTIONS: AsyncQueueOptions = {
+  /**
+   * Default maximum concurrency is unlimited (-1).
+   */
   maxConcurrency: -1,
+  /**
+   * Default maximum retries is 0 (no retries).
+   */
   maxRetries: 0,
 }
 
@@ -47,6 +53,7 @@ export class AsyncQueue<T = unknown> {
    * @type {AsyncQueueOptions}
    */
   readonly options: AsyncQueueOptions
+
   private idCounter: number = 0
   private tasks: Array<AsyncQueueTask<T>> = []
   private inFlight: Map<string, Promise<void>> = new Map()
@@ -88,7 +95,7 @@ export class AsyncQueue<T = unknown> {
 
   /**
    * Sets the maximum concurrency for the queue.
-   * @param {number} maxConcurrency - Maximum number of concurrent tasks.
+   * @param {number} maxConcurrency - Maximum number of concurrent tasks. 0 means pause, <0 means unlimited.
    * @returns {this}
    */
   public withConcurrency(maxConcurrency: number): this {
@@ -155,7 +162,7 @@ export class AsyncQueue<T = unknown> {
   }
 
   /**
-   * Waits for the queue to terminate (all tasks complete and queue is empty).
+   * Waits for the queue to terminate (all tasks complete) without returning anything.
    * @returns {Promise<void>}
    */
   public async waitForTermination(): Promise<void> {
