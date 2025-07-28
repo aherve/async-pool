@@ -2,4 +2,4 @@
 
 ***
 
-[Full docs](./docs/global.md)
+[Full docs](_media/globals.md)
