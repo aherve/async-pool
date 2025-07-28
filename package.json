@@ -25,6 +25,7 @@
     }
   },
   "scripts": {
+    "lint": "eslint ./src ./tests",
     "test": "node --experimental-strip-types ./tests/**",
     "test:watch": "node --experimental-strip-types --watch ./tests/**",
     "compile": "tsc --noEmit",
