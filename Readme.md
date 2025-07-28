@@ -1,1 +1,1 @@
-[Full docs](./docs/global.md)
+[Full docs](./docs/globals.md)
