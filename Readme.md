@@ -6,6 +6,7 @@ A concurrent pool for Node.js and browsers, supporting consuming result via prom
 ![NPM Downloads](https://img.shields.io/npm/dm/%40aherve%2Fasync-pool)
 ![NPM License](https://img.shields.io/npm/l/%40aherve%2Fasync-pool)
 ![npm bundle size](https://img.shields.io/bundlephobia/min/%40aherve%2Fasync-pool)
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/aherve/async-pool/test.yml)
 
 
 ## Features
