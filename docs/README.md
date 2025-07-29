@@ -1,4 +1,4 @@
-**@aherve/async-pool v1.0.4**
+**@aherve/async-pool v0.0.2**
 
 ***
 

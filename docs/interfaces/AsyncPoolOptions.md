@@ -1,4 +1,4 @@
-[**@aherve/async-pool v1.0.4**](../README.md)
+[**@aherve/async-pool v0.0.2**](../README.md)
 
 ***
 
@@ -6,7 +6,7 @@
 
 # Interface: AsyncPoolOptions
 
-Defined in: [index.ts:6](https://github.com/aherve/async-pool/blob/4d2ae93d542f8ba2d725679b45aaa0484218fc40/src/index.ts#L6)
+Defined in: [index.ts:6](https://github.com/aherve/async-pool/blob/68f48d00d51f693dee5ffd1230b883af572ab677/src/index.ts#L6)
 
 Options for configuring the AsyncPool.
 
@@ -16,7 +16,7 @@ Options for configuring the AsyncPool.
 
 > **maxConcurrency**: `number`
 
-Defined in: [index.ts:10](https://github.com/aherve/async-pool/blob/4d2ae93d542f8ba2d725679b45aaa0484218fc40/src/index.ts#L10)
+Defined in: [index.ts:10](https://github.com/aherve/async-pool/blob/68f48d00d51f693dee5ffd1230b883af572ab677/src/index.ts#L10)
 
 The maximum number of tasks that can be processed concurrently.
 
@@ -26,6 +26,6 @@ The maximum number of tasks that can be processed concurrently.
 
 > **maxRetries**: `number`
 
-Defined in: [index.ts:14](https://github.com/aherve/async-pool/blob/4d2ae93d542f8ba2d725679b45aaa0484218fc40/src/index.ts#L14)
+Defined in: [index.ts:14](https://github.com/aherve/async-pool/blob/68f48d00d51f693dee5ffd1230b883af572ab677/src/index.ts#L14)
 
 The maximum number of times a task will be retried upon failure. Can be overridden per task.
