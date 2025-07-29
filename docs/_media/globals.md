@@ -1,8 +1,8 @@
-[**@aherve/async-pool v0.0.2**](README.md)
+[**@aherve/async-pool v1.0.0**](README.md)
 
 ***
 
-# @aherve/async-pool v0.0.2
+# @aherve/async-pool v1.0.0
 
 ## Classes
 

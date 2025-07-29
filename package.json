@@ -1,6 +1,6 @@
 {
   "name": "@aherve/async-pool",
-  "version": "0.0.2",
+  "version": "1.0.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/aherve/async-pool.git"
@@ -9,7 +9,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "description": "A concurrent pool for Node.js and browsers, supporting async functions, promises, and generators.",
+  "description": "A concurrent pool for Node.js and browsers, supporting consuming result via promises, and generators.",
   "keywords": [
     "concurrent",
     "queue",

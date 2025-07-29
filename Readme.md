@@ -1,6 +1,6 @@
 # Async Pool
 
-Process asynchronous tasks with controlled max concurrency and memory efficiency.
+A concurrent pool for Node.js and browsers, supporting consuming result via promises, and generators.
 
 ![NPM Version](https://img.shields.io/npm/v/%40aherve%2Fasync-pool)
 ![NPM Downloads](https://img.shields.io/npm/dm/%40aherve%2Fasync-pool)

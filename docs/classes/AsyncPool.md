@@ -1,4 +1,4 @@
-[**@aherve/async-pool v0.0.2**](../README.md)
+[**@aherve/async-pool v1.0.0**](../README.md)
 
 ***
 
@@ -6,7 +6,7 @@
 
 # Class: AsyncPool\<T\>
 
-Defined in: [index.ts:50](https://github.com/aherve/async-pool/blob/68f48d00d51f693dee5ffd1230b883af572ab677/src/index.ts#L50)
+Defined in: [index.ts:50](https://github.com/aherve/async-pool/blob/3c872e1e61e7932eda7e4946a4250d52e2732df1/src/index.ts#L50)
 
 An asynchronous pool that manages concurrent execution of tasks with retry and termination options.
 
@@ -22,7 +22,7 @@ An asynchronous pool that manages concurrent execution of tasks with retry and t
 
 > **new AsyncPool**\<`T`\>(`opts?`): `AsyncPool`\<`T`\>
 
-Defined in: [index.ts:67](https://github.com/aherve/async-pool/blob/68f48d00d51f693dee5ffd1230b883af572ab677/src/index.ts#L67)
+Defined in: [index.ts:67](https://github.com/aherve/async-pool/blob/3c872e1e61e7932eda7e4946a4250d52e2732df1/src/index.ts#L67)
 
 Creates an instance of AsyncPool.
 
@@ -44,7 +44,7 @@ Optional configuration options to override the default AsyncPool options.
 
 > `readonly` **options**: [`AsyncPoolOptions`](../interfaces/AsyncPoolOptions.md)
 
-Defined in: [index.ts:55](https://github.com/aherve/async-pool/blob/68f48d00d51f693dee5ffd1230b883af572ab677/src/index.ts#L55)
+Defined in: [index.ts:55](https://github.com/aherve/async-pool/blob/3c872e1e61e7932eda7e4946a4250d52e2732df1/src/index.ts#L55)
 
 The options for this pool instance.
 
@@ -54,7 +54,7 @@ The options for this pool instance.
 
 > **add**(`task`): `this`
 
-Defined in: [index.ts:121](https://github.com/aherve/async-pool/blob/68f48d00d51f693dee5ffd1230b883af572ab677/src/index.ts#L121)
+Defined in: [index.ts:121](https://github.com/aherve/async-pool/blob/3c872e1e61e7932eda7e4946a4250d52e2732df1/src/index.ts#L121)
 
 Enpools a new task into the pool.
 
@@ -76,7 +76,7 @@ The task to add.
 
 > **all**(): `Promise`\<`T`[]\>
 
-Defined in: [index.ts:152](https://github.com/aherve/async-pool/blob/68f48d00d51f693dee5ffd1230b883af572ab677/src/index.ts#L152)
+Defined in: [index.ts:152](https://github.com/aherve/async-pool/blob/3c872e1e61e7932eda7e4946a4250d52e2732df1/src/index.ts#L152)
 
 Waits for all tasks to complete and returns their results as an array.
 
@@ -90,7 +90,7 @@ Waits for all tasks to complete and returns their results as an array.
 
 > **keepAlive**(): `this`
 
-Defined in: [index.ts:91](https://github.com/aherve/async-pool/blob/68f48d00d51f693dee5ffd1230b883af572ab677/src/index.ts#L91)
+Defined in: [index.ts:91](https://github.com/aherve/async-pool/blob/3c872e1e61e7932eda7e4946a4250d52e2732df1/src/index.ts#L91)
 
 Keeps the pool alive even when empty (prevents termination).
 
@@ -104,7 +104,7 @@ Keeps the pool alive even when empty (prevents termination).
 
 > **results**(): `AsyncGenerator`\<`T`\>
 
-Defined in: [index.ts:141](https://github.com/aherve/async-pool/blob/68f48d00d51f693dee5ffd1230b883af572ab677/src/index.ts#L141)
+Defined in: [index.ts:141](https://github.com/aherve/async-pool/blob/3c872e1e61e7932eda7e4946a4250d52e2732df1/src/index.ts#L141)
 
 Returns an async generator yielding results as they complete.
 
@@ -120,7 +120,7 @@ Returns an async generator yielding results as they complete.
 
 > **terminateWhenEmpty**(): `this`
 
-Defined in: [index.ts:82](https://github.com/aherve/async-pool/blob/68f48d00d51f693dee5ffd1230b883af572ab677/src/index.ts#L82)
+Defined in: [index.ts:82](https://github.com/aherve/async-pool/blob/3c872e1e61e7932eda7e4946a4250d52e2732df1/src/index.ts#L82)
 
 Sets the pool to terminate when empty.
 
@@ -134,7 +134,7 @@ Sets the pool to terminate when empty.
 
 > **waitForTermination**(): `Promise`\<`void`\>
 
-Defined in: [index.ts:165](https://github.com/aherve/async-pool/blob/68f48d00d51f693dee5ffd1230b883af572ab677/src/index.ts#L165)
+Defined in: [index.ts:165](https://github.com/aherve/async-pool/blob/3c872e1e61e7932eda7e4946a4250d52e2732df1/src/index.ts#L165)
 
 Waits for the pool to terminate (all tasks complete) without returning anything.
 
@@ -148,7 +148,7 @@ Waits for the pool to terminate (all tasks complete) without returning anything.
 
 > **withConcurrency**(`maxConcurrency`): `this`
 
-Defined in: [index.ts:101](https://github.com/aherve/async-pool/blob/68f48d00d51f693dee5ffd1230b883af572ab677/src/index.ts#L101)
+Defined in: [index.ts:101](https://github.com/aherve/async-pool/blob/3c872e1e61e7932eda7e4946a4250d52e2732df1/src/index.ts#L101)
 
 Sets the maximum concurrency for the pool.
 
@@ -170,7 +170,7 @@ Maximum number of concurrent tasks. 0 means pause, <0 means unlimited.
 
 > **withRetries**(`maxRetries`): `this`
 
-Defined in: [index.ts:111](https://github.com/aherve/async-pool/blob/68f48d00d51f693dee5ffd1230b883af572ab677/src/index.ts#L111)
+Defined in: [index.ts:111](https://github.com/aherve/async-pool/blob/3c872e1e61e7932eda7e4946a4250d52e2732df1/src/index.ts#L111)
 
 Sets the maximum number of retries for tasks.
 
