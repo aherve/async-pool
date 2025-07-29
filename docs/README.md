@@ -1,4 +1,4 @@
-**@aherve/async-pool v1.0.0**
+**@aherve/async-pool v1.0.1**
 
 ***
 
@@ -10,6 +10,7 @@ A concurrent pool for Node.js and browsers, supporting consuming result via prom
 ![NPM Downloads](https://img.shields.io/npm/dm/%40aherve%2Fasync-pool)
 ![NPM License](https://img.shields.io/npm/l/%40aherve%2Fasync-pool)
 ![npm bundle size](https://img.shields.io/bundlephobia/min/%40aherve%2Fasync-pool)
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/aherve/async-pool/test.yml)
 
 ## Features
 
@@ -34,48 +35,46 @@ const AsyncPool = require("@aherve/async-pool").AsyncPool;
 ## Usage
 
 ### Consume results as a stream
+
 ```typescript
-const pool = new AsyncPool<number>() // generic can optionally be used 
+const pool = new AsyncPool<boolean>() // generic can optionally be used
   .withConcurrency(10)
   .withRetries(3); // default number of retries for each task unless specified at task level
 
-// add many tasks
-for (let i = 0; i < 100; i++) {
+// Processing will start as soon as the first task is added
+for await (const document of largeDBCollectionScanner) {
   pool.add({
-    task: async () => 2 * i,
-    maxRetries: 3, // optional, will override the pool's default when set
-  });
+    task: () => updateDBDoc(document), // assuming this returns a Promise<boolean>
+  })
 }
 
-// consume results as a stream, without building a large array of results
-let sum = 0;
-for await (const res of pool.results()) {
-  sum += res;
+// results can be consumed as a stream, without building a large array of results
+let total = 0;
+for await (const update of pool.results()) {
+  if update.changed { 
+    total++
+  }
 }
 
-console.log("Sum:", sum); // "Sum: 9900"
+console.log("Successfully updated", total, "documents");
 ```
 
 ### Headless processsing
 
-Useful to make sure all tasks are processed without needing to consume results.
+Fire and forget tasks, with controlled concurrency and retries
 
 ```typescript
-const task = async () => {
-  await new Promise((resolve) => setTimeout(resolve, 100));
-  console.log("hello, world");
-};
 
-// create pool and add some tasks
 const pool = new AsyncPool()
   .withConcurrency(10)
   .withRetries(3)
-  .add({ task })
-  .add({ task })
-  .add({ task });
+  .add({ task: () => doSomethingAsync() })
+  .add({ task: () => doSomethingElse() })
 
 // wait until all tasks are processed
 await pool.waitForTermination();
+
+// At this point, all promises have been resolved successfully
 ```
 
 ### Promise-based consumption
