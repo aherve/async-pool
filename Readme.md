@@ -1,11 +1,11 @@
-# Async Queue
+# Async Pool
 
 Process asynchronous tasks with controlled max concurrency and memory efficiency.
 
-![NPM Version](https://img.shields.io/npm/v/%40aherve%2Fasync-queue)
-![NPM Downloads](https://img.shields.io/npm/dm/%40aherve%2Fasync-queue)
-![NPM License](https://img.shields.io/npm/l/%40aherve%2Fasync-queue)
-![npm bundle size](https://img.shields.io/bundlephobia/min/%40aherve%2Fasync-queue)
+![NPM Version](https://img.shields.io/npm/v/%40aherve%2Fasync-pool)
+![NPM Downloads](https://img.shields.io/npm/dm/%40aherve%2Fasync-pool)
+![NPM License](https://img.shields.io/npm/l/%40aherve%2Fasync-pool)
+![npm bundle size](https://img.shields.io/bundlephobia/min/%40aherve%2Fasync-pool)
 
 
 ## Features
@@ -17,36 +17,36 @@ Process asynchronous tasks with controlled max concurrency and memory efficiency
 ## Installation
 
 ```bash
-npm install @aherve/async-queue
+npm install @aherve/async-pool
 ```
 
 ```typescript
 // with TypeScript or ES Modules
-import { AsyncQueue } from "@aherve/async-queue";
+import { AsyncPool } from "@aherve/async-pool";
 
 // or with CommonJS
-const AsyncQueue = require("@aherve/async-queue").AsyncQueue;
+const AsyncPool = require("@aherve/async-pool").AsyncPool;
 ```
 
 ## Usage
 
 ### Consume results as a stream
 ```typescript
-const queue = new AsyncQueue<number>() // generic can optionally be used 
+const pool = new AsyncPool<number>() // generic can optionally be used 
   .withConcurrency(10)
   .withRetries(3); // default number of retries for each task unless specified at task level
 
-// enqueue many tasks
+// add many tasks
 for (let i = 0; i < 100; i++) {
-  queue.enqueue({
+  pool.add({
     task: async () => 2 * i,
-    maxRetries: 3, // optional, will override the queue's default when set
+    maxRetries: 3, // optional, will override the pool's default when set
   });
 }
 
 // consume results as a stream, without building a large array of results
 let sum = 0;
-for await (const res of queue.results()) {
+for await (const res of pool.results()) {
   sum += res;
 }
 
@@ -63,16 +63,16 @@ const task = async () => {
   console.log("hello, world");
 };
 
-// create queue and add some tasks
-const queue = new AsyncQueue()
+// create pool and add some tasks
+const pool = new AsyncPool()
   .withConcurrency(10)
   .withRetries(3)
-  .enqueue({ task })
-  .enqueue({ task })
-  .enqueue({ task });
+  .add({ task })
+  .add({ task })
+  .add({ task });
 
 // wait until all tasks are processed
-await queue.waitForTermination();
+await pool.waitForTermination();
 ```
 
 ### Promise-based consumption
@@ -80,34 +80,34 @@ await queue.waitForTermination();
 Similar to `Promise.all`, but with controlled concurrency and builtin retries
 
 ```typescript
-const queue = new AsyncQueue();
+const pool = new AsyncPool();
 
-queue.enqueue({ task: async () => 1 });
-queue.enqueue({ task: async () => true });
-queue.enqueue({ task: async () => "hello" });
+pool.add({ task: async () => 1 });
+pool.add({ task: async () => true });
+pool.add({ task: async () => "hello" });
 
-const results = await queue.all();
+const results = await pool.all();
 console.log(results); // [1, true, "hello"], order not guaranteed (especially if retries happened)
 ```
 
 ### Using generic typings
 
-You can specify a generic type for the `AsyncQueue` to enforce type safety on the results of the tasks. If you don't specify a type, it will default to `unknown`, allowing any type of result.
+You can specify a generic type for the `AsyncPool` to enforce type safety on the results of the tasks. If you don't specify a type, it will default to `unknown`, allowing any type of result.
 
 ```typescript
-const typedQueue = new AsyncQueue<string>();
+const typedPool = new AsyncPool<string>();
 
-typedQueue.enqueue({ task: async () => "hello" }); // OK
-typedQueue.enqueue({ task: async () => 1 }); // ❌ Error: Type 'Promise<number>' is not assignable to type 'Promise<string>'.
+typedPool.add({ task: async () => "hello" }); // OK
+typedPool.add({ task: async () => 1 }); // ❌ Error: Type 'Promise<number>' is not assignable to type 'Promise<string>'.
 
-// typedQueue.all() will return a Promise<string[]>, typedQueue.results() is an AsyncGenerator<string>
+// typedPool.all() will return a Promise<string[]>, typedPool.results() is an AsyncGenerator<string>
 
-const relaxedQueue = new AsyncQueue();
+const relaxedPool = new AsyncPool();
 
-relaxedQueue.enqueue({ task: async () => "hello" }); // OK
-relaxedQueue.enqueue({ task: async () => 1 }); // OK
+relaxedPool.add({ task: async () => "hello" }); // OK
+relaxedPool.add({ task: async () => 1 }); // OK
 
-// relaxedQueue.all() will return a Promise<unknown[]>, relaxedQueue.results() is an AsyncGenerator<unknown>
+// relaxedPool.all() will return a Promise<unknown[]>, relaxedPool.results() is an AsyncGenerator<unknown>
 ```
 
 ## API Documentation

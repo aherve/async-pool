@@ -1,14 +1,14 @@
-[**@aherve/async-queue v1.0.4**](README.md)
+[**@aherve/async-pool v1.0.4**](README.md)
 
 ***
 
-# @aherve/async-queue v1.0.4
+# @aherve/async-pool v1.0.4
 
 ## Classes
 
-- [AsyncQueue](classes/AsyncQueue.md)
+- [AsyncPool](classes/AsyncPool.md)
 
 ## Interfaces
 
-- [AsyncQueueOptions](interfaces/AsyncQueueOptions.md)
-- [AsyncQueueTask](interfaces/AsyncQueueTask.md)
+- [AsyncPoolOptions](interfaces/AsyncPoolOptions.md)
+- [AsyncPoolTask](interfaces/AsyncPoolTask.md)
