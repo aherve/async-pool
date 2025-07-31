@@ -57,7 +57,10 @@ for await (const update of pool.results()) {
 console.log("Successfully updated", total, "documents");
 ```
 
+#### Safe mode
+
 Alternatively, safe mode can be used to avoid throwing, and instead return errors in the results stream. When using this mode, the pool will process all taksks, even if some fail, and you can handle errors gracefully.
+
 ```typescript
 for await (const res of pool.safeResults()) {
     if (res.success) {
@@ -67,8 +70,6 @@ for await (const res of pool.safeResults()) {
     }
 }
 ```
-
-```typescript
 
 ### Headless processsing
 
@@ -102,6 +103,8 @@ pool.add({ task: async () => "hello" });
 const results = await pool.all();
 console.log(results); // [1, true, "hello"], order not guaranteed (especially if retries happened)
 ```
+
+#### Safe mode
 
 `all` can also be used in safe mode:
 
