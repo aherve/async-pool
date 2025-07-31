@@ -8,7 +8,7 @@
 
 > **SafeResult**\<`T`\> = \{ `data`: `T`; `success`: `true`; \} \| \{ `error`: `Error`; `success`: `false`; \}
 
-Defined in: [index.ts:32](https://github.com/aherve/async-queue/blob/bdeca7c9127a7fe5b6d0269f93a19d9920662c87/src/index.ts#L32)
+Defined in: [index.ts:32](https://github.com/aherve/async-queue/blob/13b0f4038b5b5d5d2b0d71216cd50d4eed05bb90/src/index.ts#L32)
 
 ## Type Parameters
 
