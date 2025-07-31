@@ -1,4 +1,4 @@
-[**@aherve/async-pool v1.0.1**](../README.md)
+[**@aherve/async-pool v1.1.0**](../README.md)
 
 ***
 
@@ -6,7 +6,7 @@
 
 # Interface: AsyncPoolTask\<T\>
 
-Defined in: [index.ts:37](https://github.com/aherve/async-queue/blob/7b69ea491265f5b94725ad0bbfb5b59e83bb9d95/src/index.ts#L37)
+Defined in: [index.ts:37](https://github.com/aherve/async-queue/blob/bdeca7c9127a7fe5b6d0269f93a19d9920662c87/src/index.ts#L37)
 
 Represents a task to be executed in the AsyncPool.
 
@@ -22,7 +22,7 @@ Represents a task to be executed in the AsyncPool.
 
 > **maxRetries**: `number`
 
-Defined in: [index.ts:45](https://github.com/aherve/async-queue/blob/7b69ea491265f5b94725ad0bbfb5b59e83bb9d95/src/index.ts#L45)
+Defined in: [index.ts:45](https://github.com/aherve/async-queue/blob/bdeca7c9127a7fe5b6d0269f93a19d9920662c87/src/index.ts#L45)
 
 Override the maximum number of retries for this specific task.
 
@@ -32,7 +32,7 @@ Override the maximum number of retries for this specific task.
 
 > **task**: () => `Promise`\<`T`\>
 
-Defined in: [index.ts:41](https://github.com/aherve/async-queue/blob/7b69ea491265f5b94725ad0bbfb5b59e83bb9d95/src/index.ts#L41)
+Defined in: [index.ts:41](https://github.com/aherve/async-queue/blob/bdeca7c9127a7fe5b6d0269f93a19d9920662c87/src/index.ts#L41)
 
 The asynchronous task to be executed.
 

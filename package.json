@@ -1,6 +1,6 @@
 {
   "name": "@aherve/async-pool",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/aherve/async-pool.git"
