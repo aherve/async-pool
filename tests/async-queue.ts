@@ -1,19 +1,19 @@
-import test from "node:test";
-import assert from "node:assert/strict";
+import test from 'node:test';
+import assert from 'node:assert/strict';
 
-import { AsyncPool } from "../src/index.ts";
+import { AsyncPool } from '../src/index.ts';
 
-test("pool can be created with no options", () => {
+test('pool can be created with no options', () => {
   const pool = new AsyncPool();
   assert.strictEqual(pool.options.maxConcurrency, -1);
 });
-test("pool can be created with options", () => {
+test('pool can be created with options', () => {
   const pool = new AsyncPool({
     maxConcurrency: 5,
   });
   assert.strictEqual(pool.options.maxConcurrency, 5);
 });
-test("options can be set after creation", () => {
+test('options can be set after creation', () => {
   const pool = new AsyncPool() //
     .withConcurrency(10)
     .withRetries(3);
@@ -22,7 +22,7 @@ test("options can be set after creation", () => {
   assert.strictEqual(pool.options.maxRetries, 3);
 });
 
-test("it works with low maxConcurrency", async () => {
+test('it works with low maxConcurrency', async () => {
   const pool = new AsyncPool<number>()
     .withConcurrency(1)
     .add({ task: async () => 1 })
@@ -32,7 +32,7 @@ test("it works with low maxConcurrency", async () => {
   const results = await pool.all();
   assert.deepEqual(results.sort(), [1, 2, 3]);
 });
-test("it pauses at concurrency = 0", async () => {
+test('it pauses at concurrency = 0', async () => {
   let didSomething = false;
   new AsyncPool().withConcurrency(0).add({
     task: async () => {
@@ -41,16 +41,10 @@ test("it pauses at concurrency = 0", async () => {
   });
 
   await new Promise((resolve) => setTimeout(resolve, 100));
-  assert.strictEqual(
-    didSomething,
-    false,
-    "task should not have been executed with concurrency 0",
-  );
+  assert.strictEqual(didSomething, false, 'task should not have been executed with concurrency 0');
 });
-test("cannot add a new task after it terminated", async () => {
-  const pool = new AsyncPool()
-    .add({ task: async () => 1 })
-    .add({ task: async () => 2 });
+test('cannot add a new task after it terminated', async () => {
+  const pool = new AsyncPool().add({ task: async () => 1 }).add({ task: async () => 2 });
 
   await pool.waitForTermination();
 
@@ -59,20 +53,37 @@ test("cannot add a new task after it terminated", async () => {
   }, /Cannot add a task after the pool has been terminated/);
 });
 
-test("it can return results as an array", async () => {
+test('it can return results as an array', async () => {
   const pool = new AsyncPool()
     .add({ task: async () => 1 })
-    .add({ task: async () => "foo" })
+    .add({ task: async () => 'foo' })
     .add({ task: async () => true, maxRetries: 2 });
 
   const results = await pool.all();
-  assert.deepEqual(results.sort(), [1, "foo", true]);
+  assert.deepEqual(results.sort(), [1, 'foo', true]);
 });
-test("it can yield results as stream", async () => {
-  const results: number[] = [];
-  const pool = new AsyncPool<number>()
+test('it can return results in safe mode', async () => {
+  const queue = new AsyncPool()
     .add({ task: async () => 1 })
-    .add({ task: async () => 2 });
+    .add({ task: async () => 'foo' })
+    .add({
+      task: async () => {
+        throw new Error('oops');
+      },
+    })
+    .add({ task: async () => 'ok' });
+
+  const results = await queue.safeAll();
+  assert.deepEqual(results, [
+    { success: true, data: 1 },
+    { success: true, data: 'foo' },
+    { success: false, error: new Error('oops') },
+    { success: true, data: 'ok' },
+  ]);
+});
+test('it can yield results as stream', async () => {
+  const results: number[] = [];
+  const pool = new AsyncPool<number>().add({ task: async () => 1 }).add({ task: async () => 2 });
 
   // wait for some time, the pool will empty but it should not yet terminate
   await new Promise((resolve) => setTimeout(resolve, 100));
@@ -83,7 +94,29 @@ test("it can yield results as stream", async () => {
   }
   assert.deepEqual(results.sort(), [1, 2, 3]);
 });
-test("it can process tasks without returning results", async () => {
+test('it can yield results in safe mode', async () => {
+  const err = new Error('oops');
+  const results: Array<unknown> = [];
+  const queue = new AsyncPool<number>()
+    .add({ task: async () => 1 })
+    .add({ task: async () => 2 })
+    .add({
+      task: async () => {
+        throw err;
+      },
+    })
+    .add({ task: async () => 3 });
+
+  for await (const result of queue.safeResults()) {
+    if (result.success) {
+      results.push(result.data);
+    } else {
+      results.push(result.error.message);
+    }
+  }
+  assert.deepEqual(results, [1, 2, err.message, 3]);
+});
+test('it can process tasks without returning results', async () => {
   const boundResults: number[] = [];
   const pool = new AsyncPool<number>()
     .withConcurrency(2)
@@ -96,9 +129,9 @@ test("it can process tasks without returning results", async () => {
   assert.deepEqual(boundResults.sort(), [1, 2, 3]);
 });
 
-test("it fails", async () => {
+test('it fails', async () => {
   const pool = new AsyncPool().withRetries(2);
-  const err = new Error("nope");
+  const err = new Error('nope');
   pool.add({
     task: () => Promise.reject(err),
   });
@@ -107,36 +140,24 @@ test("it fails", async () => {
     await pool.all();
   }, err);
 });
-test("it retries tasks", async () => {
+test('it retries tasks', async () => {
   const flaky = async () => {
     if (Math.random() < 0.5) {
-      throw new Error("flaky task failed");
+      throw new Error('flaky task failed');
     }
-    return "success";
+    return 'success';
   };
 
   const q = new AsyncPool<string>().withRetries(20);
 
-  q.add({ task: flaky })
-    .add({ task: flaky })
-    .add({ task: flaky })
-    .add({ task: flaky })
-    .add({ task: flaky })
-    .add({ task: flaky });
+  q.add({ task: flaky }).add({ task: flaky }).add({ task: flaky }).add({ task: flaky }).add({ task: flaky }).add({ task: flaky });
 
   let results: Array<string> = [];
   await assert.doesNotReject(async () => (results = await q.all()));
-  assert.deepEqual(results, [
-    "success",
-    "success",
-    "success",
-    "success",
-    "success",
-    "success",
-  ]);
+  assert.deepEqual(results, ['success', 'success', 'success', 'success', 'success', 'success']);
 });
 
-test("it can handle recursive tasks", async () => {
+test('it can handle recursive tasks', async () => {
   const pool = new AsyncPool();
 
   const recTask = async (n: number) => {
@@ -152,7 +173,7 @@ test("it can handle recursive tasks", async () => {
   assert.deepEqual(results, [0, 1, 2, 3]);
 });
 
-test("it respects maxConcurrency", async () => {
+test('it respects maxConcurrency', async () => {
   let canResolve = false;
   const started: Array<number> = [];
 
@@ -171,23 +192,15 @@ test("it respects maxConcurrency", async () => {
     .add({ task: () => hangingTask(4) })
     .add({ task: () => hangingTask(5) });
 
-  assert.deepEqual(
-    started.sort(),
-    [1, 2],
-    "should start only 2 tasks due to maxConcurrency",
-  );
+  assert.deepEqual(started.sort(), [1, 2], 'should start only 2 tasks due to maxConcurrency');
 
   // release all tasks to avoid hanging the test
   canResolve = true;
   await pool.waitForTermination();
-  assert.deepEqual(
-    started.sort(),
-    [1, 2, 3, 4, 5],
-    "promises eventually resolved",
-  );
+  assert.deepEqual(started.sort(), [1, 2, 3, 4, 5], 'promises eventually resolved');
 });
 
-test("default behaviour has no max concurrency", async () => {
+test('default behaviour has no max concurrency', async () => {
   let canResolve = false;
   const started: Array<number> = [];
 
@@ -205,11 +218,7 @@ test("default behaviour has no max concurrency", async () => {
     .add({ task: () => hangingTask(4) })
     .add({ task: () => hangingTask(5) });
 
-  assert.deepEqual(
-    started.sort(),
-    [1, 2, 3, 4, 5],
-    "no max concurrency, all tasks started immediately",
-  );
+  assert.deepEqual(started.sort(), [1, 2, 3, 4, 5], 'no max concurrency, all tasks started immediately');
 
   // release all tasks to avoid hanging the test
   canResolve = true;

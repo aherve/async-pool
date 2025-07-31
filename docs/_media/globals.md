@@ -12,3 +12,7 @@
 
 - [AsyncPoolOptions](interfaces/AsyncPoolOptions.md)
 - [AsyncPoolTask](interfaces/AsyncPoolTask.md)
+
+## Type Aliases
+
+- [SafeResult](type-aliases/SafeResult.md)

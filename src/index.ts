@@ -1,4 +1,4 @@
-import { Readable } from "node:stream";
+import { Readable } from 'node:stream';
 
 /**
  * Options for configuring the AsyncPool.
@@ -28,6 +28,8 @@ const DEFAULT_ASYNC_POOL_OPTIONS: AsyncPoolOptions = {
    */
   maxRetries: 0,
 };
+
+export type SafeResult<T> = { success: true; data: T } | { success: false; error: Error };
 
 /**
  * Represents a task to be executed in the AsyncPool.
@@ -59,6 +61,7 @@ export class AsyncPool<T = unknown> {
   private inFlight: Map<string, Promise<void>> = new Map();
   private _terminateWhenEmpty: boolean = false;
   private stream: Readable;
+  private safeMode: boolean = false;
 
   /**
    * Creates an instance of AsyncPool.
@@ -118,12 +121,10 @@ export class AsyncPool<T = unknown> {
    * @param {Omit<AsyncPoolTask<T>, "maxRetries"> & { maxRetries?: number }} task - The task to add.
    * @returns {this}
    */
-  public add(
-    task: Omit<AsyncPoolTask<T>, "maxRetries"> & { maxRetries?: number },
-  ): this {
+  public add(task: Omit<AsyncPoolTask<T>, 'maxRetries'> & { maxRetries?: number }): this {
     // fail if our stream is closed
     if (this.stream.destroyed) {
-      throw new Error("Cannot add a task after the pool has been terminated");
+      throw new Error('Cannot add a task after the pool has been terminated');
     }
 
     this.tasks.push({
@@ -139,9 +140,23 @@ export class AsyncPool<T = unknown> {
    * @yields {T}
    */
   public async *results(): AsyncGenerator<T> {
+    this.safeMode = false;
     this.terminateWhenEmpty();
     for await (const result of this.stream) {
       yield result as T;
+    }
+  }
+
+  /**
+   * Returns an async generator yielding SafeResult-wrapped results as they complete.
+   * Enables safe mode, ensuring results are wrapped in SafeResult<T>.
+   * @yields {SafeResult<T>} The next result wrapped in SafeResult.
+   */
+  public async *safeResults(): AsyncGenerator<SafeResult<T>> {
+    this.safeMode = true;
+    this.terminateWhenEmpty();
+    for await (const result of this.stream) {
+      yield result as SafeResult<T>;
     }
   }
 
@@ -151,9 +166,25 @@ export class AsyncPool<T = unknown> {
    */
   public async all(): Promise<T[]> {
     const results: T[] = [];
+    this.safeMode = false;
     this.terminateWhenEmpty();
     for await (const result of this.stream) {
-      results.push(result);
+      results.push(result as T);
+    }
+    return results;
+  }
+
+  /**
+   * Waits for all tasks to complete and returns their results as an array in safe mode. Promise throws will be returned instead of failing the stream.
+   *
+   * @returns {Promise<SafeResult<T>[]>} A promise that resolves to an array of SafeResult<T>.
+   */
+  public async safeAll(): Promise<SafeResult<T>[]> {
+    this.safeMode = true;
+    this.terminateWhenEmpty();
+    const results: Array<SafeResult<T>> = [];
+    for await (const result of this.stream) {
+      results.push(result as SafeResult<T>);
     }
     return results;
   }
@@ -175,19 +206,12 @@ export class AsyncPool<T = unknown> {
 
   private work() {
     // terminate condition
-    if (
-      this.tasks.length === 0 &&
-      this.inFlight.size === 0 &&
-      this._terminateWhenEmpty
-    ) {
+    if (this.tasks.length === 0 && this.inFlight.size === 0 && this._terminateWhenEmpty) {
       this.stream.push(null);
       return;
     }
 
-    const capacity =
-      this.options.maxConcurrency >= 0
-        ? this.options.maxConcurrency - this.inFlight.size
-        : this.tasks.length;
+    const capacity = this.options.maxConcurrency >= 0 ? this.options.maxConcurrency - this.inFlight.size : this.tasks.length;
 
     for (const task of this.tasks.splice(0, capacity)) {
       const id = this.getId();
@@ -196,7 +220,7 @@ export class AsyncPool<T = unknown> {
         (async () => {
           try {
             const result = await task.task();
-            this.stream.push(result);
+            this.stream.push(this.safeMode ? { success: true, data: result } : result);
           } catch (error) {
             if (task.maxRetries > 0) {
               this.add({
@@ -204,9 +228,11 @@ export class AsyncPool<T = unknown> {
                 maxRetries: task.maxRetries - 1,
               });
             } else {
-              this.stream.destroy(
-                error instanceof Error ? error : new Error(error as string),
-              );
+              if (this.safeMode) {
+                this.stream.push({ success: false, error });
+              } else {
+                this.stream.destroy(error instanceof Error ? error : new Error(error as string));
+              }
             }
           } finally {
             this.inFlight.delete(id);

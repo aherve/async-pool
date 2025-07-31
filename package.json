@@ -10,14 +10,7 @@
     "access": "public"
   },
   "description": "A concurrent pool for Node.js and browsers, supporting consuming result via promises, and generators.",
-  "keywords": [
-    "concurrent",
-    "queue",
-    "pool",
-    "async",
-    "promise",
-    "generator"
-  ],
+  "keywords": ["concurrent", "queue", "pool", "async", "promise", "generator"],
   "license": "GPL-3.0-or-later",
   "type": "module",
   "main": "dist/index.js",
@@ -28,9 +21,7 @@
       "require": "./dist/index.cjs"
     }
   },
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "scripts": {
     "lint": "eslint ./src ./tests",
     "test": "node --experimental-strip-types ./tests/**",
